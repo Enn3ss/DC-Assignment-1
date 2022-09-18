@@ -1,0 +1,8 @@
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Authenticator.exe.config
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Authenticator.exe
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Authenticator.pdb
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.AssemblyReference.cache
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.SuggestedBindingRedirects.cache
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.CoreCompileInputs.cache
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.exe
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.pdb
