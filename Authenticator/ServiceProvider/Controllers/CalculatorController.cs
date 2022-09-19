@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.ServiceModel;
+using System.Web.Http;
+using Newtonsoft.Json;
 using ServiceProvider.Models;
 
 namespace ServiceProvider.Controllers
@@ -7,51 +9,139 @@ namespace ServiceProvider.Controllers
     public class CalculatorController : ApiController
     {
         [Route("addtwonumbers")]
-        [HttpGet]
-        public NumberData AddTwoNumbers(int[] numbers)
+        [HttpPost]
+        public string AddTwoNumbers(int[] numbers, int token)
         {
-            NumberData sum = new NumberData
-            {
-                number = numbers[0] + numbers[1]
-            };
+            ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
+            NetTcpBinding tcp = new NetTcpBinding();
+            string URL = "net.tcp://localhost/AuthenticationService";
+            foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
+            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
+            string jsonString;
 
-            return sum;
+            if (foob.Validate(token).Equals("validated"))
+            {
+                NumberData sum = new NumberData
+                {
+                    Number = numbers[0] + numbers[1]
+                };
+
+                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+            }
+            else
+            {
+                ErrorData error = new ErrorData
+                {
+                    Status = "Denied",
+                    Reason = "Authentication Error"
+                };
+
+                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+            }
+
+            return jsonString;
         }
 
         [Route("addthreenumbers")]
-        [HttpGet]
-        public NumberData AddThreeNumbers(int[] numbers)
+        [HttpPost]
+        public string AddThreeNumbers(int[] numbers, int token)
         {
-            NumberData sum = new NumberData
-            {
-                number = numbers[0] + numbers[1] + numbers[2]
-            };
+            ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
+            NetTcpBinding tcp = new NetTcpBinding();
+            string URL = "net.tcp://localhost/AuthenticationService";
+            foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
+            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
+            string jsonString;
 
-            return sum;
+            if (foob.Validate(token).Equals("validated"))
+            {
+                NumberData sum = new NumberData
+                {
+                    Number = numbers[0] + numbers[1] + numbers[2]
+                };
+
+                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+            }
+            else
+            {
+                ErrorData error = new ErrorData
+                {
+                    Status = "Denied",
+                    Reason = "Authentication Error"
+                };
+
+                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+            }
+
+            return jsonString;
         }
 
         [Route("multwonumbers")]
-        [HttpGet]
-        public NumberData MulTwoNumbers(int[] numbers)
+        [HttpPost]
+        public string MulTwoNumbers(int[] numbers, int token)
         {
-            NumberData product = new NumberData
-            {
-                number = numbers[0] * numbers[1]
-            };
+            ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
+            NetTcpBinding tcp = new NetTcpBinding();
+            string URL = "net.tcp://localhost/AuthenticationService";
+            foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
+            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
+            string jsonString;
 
-            return product;
+            if (foob.Validate(token).Equals("validated"))
+            {
+                NumberData sum = new NumberData
+                {
+                    Number = numbers[0] * numbers[1]
+                };
+
+                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+            }
+            else
+            {
+                ErrorData error = new ErrorData
+                {
+                    Status = "Denied",
+                    Reason = "Authentication Error"
+                };
+
+                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+            }
+
+            return jsonString;
         }
 
         [Route("multhreenumbers")]
-        [HttpGet]
-        public NumberData MulThreeNumbers(int[] numbers)
+        [HttpPost]
+        public string MulThreeNumbers(int[] numbers, int token)
         {
-            NumberData product = new NumberData
-            {
-                number = numbers[0] * numbers[1] * numbers[2]
-            };
+            ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
+            NetTcpBinding tcp = new NetTcpBinding();
+            string URL = "net.tcp://localhost/AuthenticationService";
+            foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
+            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
+            string jsonString;
 
-            return product;
+            if (foob.Validate(token).Equals("validated"))
+            {
+                NumberData sum = new NumberData
+                {
+                    Number = numbers[0] * numbers[1] * numbers[2]
+                };
+
+                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+            }
+            else
+            {
+                ErrorData error = new ErrorData
+                {
+                    Status = "Denied",
+                    Reason = "Authentication Error"
+                };
+
+                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+            }
+
+            return jsonString;
         }
     }
 }
