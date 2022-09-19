@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "AddTwoNumbers",
+    "Description": "Adding two Numbers",
+    "API_Endpoint": "http://localhost:56066/AddTwoNumbers",
+    "Number_Of_Operands": 2,
+    "Operand_Type": "integer"
+  },
+  {
+    "Name": "AddThreeNumbers",
+    "Description": "Adding three Numbers",
+    "API_Endpoint": "http://localhost:56066/AddThreeNumbers",
+    "Number_Of_Operands": 3,
+    "Operand_Type": "integer"
+  },
+  {
+    "Name": "AddTwoNumbers",
+    "Description": "Adding two Numbers",
+    "API_Endpoint": "http://localhost:56066/AddTwoNumbers",
+    "Number_Of_Operands": 2,
+    "Operand_Type": "integer"
+  },
+  {
+    "Name": "AddThreeNumbers",
+    "Description": "Adding three Numbers",
+    "API_Endpoint": "http://localhost:56066/AddThreeNumbers",
+    "Number_Of_Operands": 3,
+    "Operand_Type": "integer"
+  }
+]

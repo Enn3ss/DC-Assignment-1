@@ -11,12 +11,12 @@ namespace Authenticator
     {
         public string Register(string name, string password) // Saves name + password in login.txt
         {
-            string loginFile = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
-            // string loginFile = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
+            string loginFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
+            // string loginFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
 
             try // Try open login.txt to check for duplicate logins
             {
-                string[] lines = File.ReadLines(loginFile).ToArray();
+                string[] lines = File.ReadLines(loginFilePath).ToArray();
 
                 foreach (string line in lines)
                 {
@@ -32,18 +32,18 @@ namespace Authenticator
                 Console.WriteLine("Error: " + ex.Message);
             }
 
-            File.AppendAllText(loginFile, name + "," + password + Environment.NewLine); // Add login if not duplicate
+            File.AppendAllText(loginFilePath, name + "," + password + Environment.NewLine); // Add login if not duplicate
 
             return "successfully registered";
         }
 
         public int Login(string name, string password) // Checks if name + password exist in login.txt
         {
-            string loginFile = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
-            // string loginFile = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
-            string tokenFile = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
-            // string tokenFile = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
-            string[] lines = File.ReadLines(loginFile).ToArray();
+            string loginFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
+            // string loginFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
+            string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
+            // string tokenFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
+            string[] lines = File.ReadLines(loginFilePath).ToArray();
 
             foreach (string line in lines)
             {
@@ -51,7 +51,7 @@ namespace Authenticator
                 {
                     Random rnd = new Random();
                     int num = rnd.Next();
-                    File.AppendAllText(tokenFile, num.ToString() + Environment.NewLine);
+                    File.AppendAllText(tokenFilePath, num.ToString() + Environment.NewLine);
                     return num; // Return token if name and password match is found in login.txt
                 }
             }
@@ -61,9 +61,9 @@ namespace Authenticator
 
         public string Validate(int token) // Checks if token is valid if it's in token.txt
         {
-            string tokenFile = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
-            // string tokenFile = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
-            string[] lines = File.ReadLines(tokenFile).ToArray();
+            string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
+            // string tokenFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
+            string[] lines = File.ReadLines(tokenFilePath).ToArray();
 
             foreach (string line in lines)
             {
@@ -78,9 +78,9 @@ namespace Authenticator
 
         public void ClearSavedTokens() // This function needs to clear saved tokens every 'x' minutes
         {
-            string tokenFile = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
-            // string tokenFile = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
-            File.WriteAllText(tokenFile, String.Empty);
+            string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
+            // string tokenFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
+            File.WriteAllText(tokenFilePath, String.Empty);
         }
     }
 }

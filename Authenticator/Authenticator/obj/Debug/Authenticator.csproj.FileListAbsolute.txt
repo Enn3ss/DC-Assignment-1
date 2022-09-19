@@ -6,3 +6,6 @@ C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authentic
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.CoreCompileInputs.cache
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.exe
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.pdb
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.CopyComplete
