@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "AddTwoNumbers",
+    "Description": "Adding two Numbers",
+    "APIEndpoint": "http://localhost:56066/AddTwoNumbers",
+    "NumberOfOperands": 2,
+    "OperandType": "integer"
+  },
+  {
+    "Name": "MulTwoNumbers",
+    "Description": "Multiplying two Numbers",
+    "APIEndpoint": "http://localhost:56066/MulTwoNumbers",
+    "NumberOfOperands": 2,
+    "OperandType": "integer"
+  }
+]

@@ -29,7 +29,7 @@ namespace Registry.Controllers
                 }
 
                 jsonContent = JsonConvert.SerializeObject(dataList.ToArray(), Formatting.Indented);
-                File.WriteAllText(descriptionFilePath, jsonContent);
+                File.WriteAllText(descriptionFilePath, jsonContent); // Rewrite the entire file with new list
                 status = new StatusData
                 {
                     Status = "successful"
@@ -48,27 +48,59 @@ namespace Registry.Controllers
 
         [Route("search")]
         [HttpPost]
-        public string Search(string search)
+        public string Search(string search) // Returns service info based on 'search' string
         {
             string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
             // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             string jsonContent = File.ReadAllText(descriptionFilePath);
-            List<ServiceDescription> test = JsonConvert.DeserializeObject<List<ServiceDescription>>(jsonContent);
+            List<ServiceDescription> dataList = JsonConvert.DeserializeObject<List<ServiceDescription>>(jsonContent); // Deserializing jsonContent into a collection
+            List<ServiceDescription> newDataList = new List<ServiceDescription>();
 
-
-            string allDescriptions = File.ReadAllText(descriptionFilePath);
-            string[] descriptions = allDescriptions.Split(',');
-            string serviceInfo;
-
-            foreach (string desc in descriptions)
+            foreach (ServiceDescription data in dataList) // Searches collection for service info that matches 'search'
             {
-                if (desc.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
+                if(data.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   data.Description.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    //serviceInfo = jsonConcat(serviceInfo, desc);
+                    newDataList.Add(data);
                 }
             }
 
-            return "";
+            return JsonConvert.SerializeObject(newDataList.ToArray(), Formatting.Indented);
+        }
+
+        [Route("allservices")]
+        [HttpPost]
+        public string AllServices() // Returns all services saved in description.txt in JSON format
+        {
+            string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
+            // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
+            //string jsonContent = File.ReadAllText(descriptionFilePath);
+            //List<ServiceDescription> dataList = JsonConvert.DeserializeObject<List<ServiceDescription>>(jsonContent); // Deserializing jsonContent into a collection
+
+            //return JsonConvert.SerializeObject(dataList.ToArray(), Formatting.Indented);
+            return File.ReadAllText(descriptionFilePath);
+        }
+
+        [Route("unpublish")]
+        [HttpPost]
+        public void Unpublish(string serviceEndpoint)
+        {
+            string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
+            // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
+            string jsonContent = File.ReadAllText(descriptionFilePath);
+            List<ServiceDescription> dataList = JsonConvert.DeserializeObject<List<ServiceDescription>>(jsonContent); // Deserializing jsonContent into a collection
+            List<ServiceDescription> newDataList = new List<ServiceDescription>();
+
+            foreach (ServiceDescription data in dataList)
+            {
+                if (!data.APIEndpoint.Equals(serviceEndpoint)) // If serviceEndpoint matches APIEndpoint then do not add to new list
+                {
+                    newDataList.Add(data);
+                }
+            }
+
+            jsonContent = JsonConvert.SerializeObject(newDataList.ToArray(), Formatting.Indented);
+            File.WriteAllText(descriptionFilePath, jsonContent); // Rewrite description.txt with newDataList in JSON format
         }
     }
 }
