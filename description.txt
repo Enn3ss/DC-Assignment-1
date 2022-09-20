@@ -26,5 +26,26 @@
     "APIEndpoint": "http://localhost:56066/AddThreeNumbers",
     "NumberOfOperands": 3,
     "OperandType": "integer"
+  },
+  {
+    "Name": "MulTwoNumbers",
+    "Description": "Multiplying two Numbers",
+    "APIEndpoint": "http://localhost:63273/MulTwoNumbers",
+    "NumberOfOperands": 2,
+    "OperandType": "integer"
+  },
+  {
+    "Name": "sdafsdaf",
+    "Description": "sdafsdaf",
+    "APIEndpoint": "sdafsdaf",
+    "NumberOfOperands": 3,
+    "OperandType": "sadf"
+  },
+  {
+    "Name": "sdafgsadsfhgd",
+    "Description": "dfshdsfgfd",
+    "APIEndpoint": "dfsgdsfgdsf",
+    "NumberOfOperands": 23,
+    "OperandType": "sadfsfda"
   }
 ]

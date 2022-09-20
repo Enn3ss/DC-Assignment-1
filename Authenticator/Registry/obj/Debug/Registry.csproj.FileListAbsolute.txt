@@ -83,3 +83,6 @@ C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Registry\
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Registry\obj\Debug\Registry.csproj.CopyComplete
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Registry\obj\Debug\Registry.dll
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Registry\obj\Debug\Registry.pdb
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Registry\bin\Authenticator.exe
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Registry\bin\Authenticator.pdb
+C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Registry\bin\Authenticator.exe.config

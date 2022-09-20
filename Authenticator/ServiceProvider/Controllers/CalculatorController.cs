@@ -8,15 +8,21 @@ namespace ServiceProvider.Controllers
     [RoutePrefix("api/calculator")]
     public class CalculatorController : ApiController
     {
-        [Route("addtwonumbers")]
-        [HttpPost]
-        public string AddTwoNumbers(int[] numbers, int token)
+        private readonly Authenticator.IAuthenticatorServer foob;
+
+        public CalculatorController()
         {
             ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
             NetTcpBinding tcp = new NetTcpBinding();
             string URL = "net.tcp://localhost/AuthenticationService";
             foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
-            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
+            foob = foobFactory.CreateChannel();
+        }
+
+        [Route("addtwonumbers")]
+        [HttpPost]
+        public string AddTwoNumbers(int[] numbers, int token)
+        {
             string jsonString;
 
             if (foob.Validate(token).Equals("validated"))
@@ -30,7 +36,7 @@ namespace ServiceProvider.Controllers
             }
             else
             {
-                ErrorData error = new ErrorData
+                StatusData error = new StatusData
                 {
                     Status = "Denied",
                     Reason = "Authentication Error"
@@ -46,11 +52,6 @@ namespace ServiceProvider.Controllers
         [HttpPost]
         public string AddThreeNumbers(int[] numbers, int token)
         {
-            ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
-            NetTcpBinding tcp = new NetTcpBinding();
-            string URL = "net.tcp://localhost/AuthenticationService";
-            foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
-            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
             string jsonString;
 
             if (foob.Validate(token).Equals("validated"))
@@ -64,7 +65,7 @@ namespace ServiceProvider.Controllers
             }
             else
             {
-                ErrorData error = new ErrorData
+                StatusData error = new StatusData
                 {
                     Status = "Denied",
                     Reason = "Authentication Error"
@@ -80,11 +81,6 @@ namespace ServiceProvider.Controllers
         [HttpPost]
         public string MulTwoNumbers(int[] numbers, int token)
         {
-            ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
-            NetTcpBinding tcp = new NetTcpBinding();
-            string URL = "net.tcp://localhost/AuthenticationService";
-            foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
-            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
             string jsonString;
 
             if (foob.Validate(token).Equals("validated"))
@@ -98,7 +94,7 @@ namespace ServiceProvider.Controllers
             }
             else
             {
-                ErrorData error = new ErrorData
+                StatusData error = new StatusData
                 {
                     Status = "Denied",
                     Reason = "Authentication Error"
@@ -114,11 +110,6 @@ namespace ServiceProvider.Controllers
         [HttpPost]
         public string MulThreeNumbers(int[] numbers, int token)
         {
-            ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
-            NetTcpBinding tcp = new NetTcpBinding();
-            string URL = "net.tcp://localhost/AuthenticationService";
-            foobFactory = new ChannelFactory<Authenticator.IAuthenticatorServer>(tcp, URL);
-            Authenticator.IAuthenticatorServer foob = foobFactory.CreateChannel();
             string jsonString;
 
             if (foob.Validate(token).Equals("validated"))
@@ -132,7 +123,7 @@ namespace ServiceProvider.Controllers
             }
             else
             {
-                ErrorData error = new ErrorData
+                StatusData error = new StatusData
                 {
                     Status = "Denied",
                     Reason = "Authentication Error"

@@ -162,9 +162,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ErrorData.cs" />
-    <Compile Include="Models\ServiceDescription.cs" />
+    <Compile Include="Models\SearchData.cs" />
+    <Compile Include="Models\PublishData.cs" />
     <Compile Include="Models\StatusData.cs" />
+    <Compile Include="Models\ServiceDescription.cs" />
+    <Compile Include="Models\UnpublishData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
