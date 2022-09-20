@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Web.Http;
 using Newtonsoft.Json;
 using Registry.Models;
-using ServiceProvider.Models;
+//using ServiceProvider.Models;
 
 namespace Registry.Controllers
 {
