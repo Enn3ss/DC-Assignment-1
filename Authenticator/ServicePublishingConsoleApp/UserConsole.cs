@@ -29,7 +29,7 @@ namespace ServicePublishingConsoleApp
 
         public static void Menu()
         {
-            int menuOption = 0;
+            int menuOption;
             int token = -1; // -1 is an invalid token
             string menuStr = "Please select an operation:" +
                              "\n> 1. Register" +
@@ -41,7 +41,7 @@ namespace ServicePublishingConsoleApp
             do
             {
                 Console.WriteLine(menuStr);
-                menuOption = int.Parse(Console.ReadLine());
+                menuOption = int.Parse(Console.ReadLine()); // Will throw exception if input is not a number
 
                 switch (menuOption)
                 {
@@ -53,6 +53,12 @@ namespace ServicePublishingConsoleApp
                         break;
                     case 3:
                         Publish(token);
+                        break;
+                    case 4:
+                        Unpublish(token);
+                        break;
+                    case 5:
+                        Console.WriteLine("Exiting the Service Publishing Console Application...");
                         break;
                 }
             }

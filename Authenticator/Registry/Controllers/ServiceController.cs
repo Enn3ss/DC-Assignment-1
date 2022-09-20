@@ -112,13 +112,13 @@ namespace Registry.Controllers
 
         [Route("allservices")]
         [HttpPost]
-        public StatusData AllServices(int token) // Returns all services saved in description.txt in JSON format
+        public StatusData AllServices(AllServicesData allServicesData) // Returns all services saved in description.txt in JSON format
         {
             string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
             // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             StatusData statusData = new StatusData();
 
-            if (foob.Validate(token).Equals("validated")) // If token is valid (found in token.txt)
+            if (foob.Validate(allServicesData.Token).Equals("validated")) // If token is valid (found in token.txt)
             {
                 statusData.Status = "Successful";
                 statusData.Reason = "File Found";

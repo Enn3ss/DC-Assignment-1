@@ -40,12 +40,5 @@
     "APIEndpoint": "sdafsdaf",
     "NumberOfOperands": 3,
     "OperandType": "sadf"
-  },
-  {
-    "Name": "sdafgsadsfhgd",
-    "Description": "dfshdsfgfd",
-    "APIEndpoint": "dfsgdsfgdsf",
-    "NumberOfOperands": 23,
-    "OperandType": "sadfsfda"
   }
 ]
