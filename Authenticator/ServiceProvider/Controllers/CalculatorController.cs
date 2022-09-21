@@ -21,31 +21,24 @@ namespace ServiceProvider.Controllers
 
         [Route("addtwonumbers")]
         [HttpPost]
-        public string AddTwoNumbers(int[] numbers, int token)
+        public StatusData AddTwoNumbers(CalculatorData calcData)
         {
-            string jsonString;
+            StatusData status = new StatusData();
 
-            if (foob.Validate(token).Equals("validated"))
+            if (foob.Validate(calcData.Token).Equals("validated"))
             {
-                NumberData sum = new NumberData
-                {
-                    Number = numbers[0] + numbers[1]
-                };
-
-                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+                int result = calcData.Operands[0] + calcData.Operands[1];
+                status.Status = "Successful";
+                status.Reason = "PUT SOMETHING HERE";
+                status.Data = result.ToString();
             }
             else
             {
-                StatusData error = new StatusData
-                {
-                    Status = "Denied",
-                    Reason = "Authentication Error"
-                };
-
-                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+                status.Status = "Denied";
+                status.Reason = "Authentication Error";
             }
 
-            return jsonString;
+            return status;
         }
 
         [Route("addthreenumbers")]
@@ -67,7 +60,7 @@ namespace ServiceProvider.Controllers
                 {
                     Status = "Successful",
                     Reason = "xxxxxxxxxxx",
-                    Data = hello.ToString(),
+                    Data = hello.ToString()
                 };
 
                 // comment below out
