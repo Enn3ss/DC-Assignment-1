@@ -40,5 +40,12 @@
     "APIEndpoint": "sdafsdaf",
     "NumberOfOperands": 3,
     "OperandType": "sadf"
+  },
+  {
+    "Name": "wrx",
+    "Description": "sti",
+    "APIEndpoint": "2005",
+    "NumberOfOperands": 69,
+    "OperandType": "hello"
   }
 ]

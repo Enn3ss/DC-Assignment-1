@@ -61,6 +61,16 @@ namespace ServiceProvider.Controllers
                     Number = numbers[0] + numbers[1] + numbers[2]
                 };
 
+                //
+                int hello = numbers[0] + numbers[1] + numbers[2];
+                StatusData test = new StatusData
+                {
+                    Status = "Successful",
+                    Reason = "xxxxxxxxxxx",
+                    Data = hello.ToString(),
+                };
+
+                // comment below out
                 jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
             }
             else
@@ -74,6 +84,7 @@ namespace ServiceProvider.Controllers
                 jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
             }
 
+            // return test (StatusData obj(
             return jsonString;
         }
 

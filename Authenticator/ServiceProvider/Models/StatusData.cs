@@ -9,5 +9,6 @@ namespace ServiceProvider.Models
     {
         public string Status { get;set; }
         public string Reason { get;set; }
+        public string Data { get; set; }
     }
 }
