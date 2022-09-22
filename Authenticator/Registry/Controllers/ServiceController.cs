@@ -12,7 +12,10 @@ namespace Registry.Controllers
     public class ServiceController : ApiController
     {
         private readonly Authenticator.IAuthenticatorServer foob;
-        
+
+        //private string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
+        private string descriptionFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\description.txt";
+
         public ServiceController()
         {
             ChannelFactory<Authenticator.IAuthenticatorServer> foobFactory;
@@ -26,8 +29,6 @@ namespace Registry.Controllers
         [HttpPost]
         public StatusData Publish(PublishData publishData) // Saves service description into description.txt
         {
-            string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
-            // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             string jsonContent;
             StatusData statusData = new StatusData();
             List<ServiceDescription> currDataList = new List<ServiceDescription>();
@@ -77,8 +78,6 @@ namespace Registry.Controllers
         [HttpPost]
         public StatusData Search(SearchData searchData) // Returns service info based on 'search' string
         {
-            string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
-            // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             string jsonContent;
             List<ServiceDescription> dataList, newDataList;
             StatusData statusData = new StatusData();
@@ -114,8 +113,6 @@ namespace Registry.Controllers
         [HttpPost]
         public StatusData AllServices(AllServicesData allServicesData) // Returns all services saved in description.txt in JSON format
         {
-            string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
-            // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             StatusData statusData = new StatusData();
 
             if (foob.Validate(allServicesData.Token).Equals("validated")) // If token is valid (found in token.txt)
@@ -137,8 +134,6 @@ namespace Registry.Controllers
         [HttpPost]
         public StatusData Unpublish(UnpublishData unpublishData) // Given a serviceEndpoint, remove the service description from description.txt
         {
-            string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
-            // string descriptionFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             string jsonContent;
             List<ServiceDescription> dataList, newDataList;
             StatusData statusData = new StatusData();

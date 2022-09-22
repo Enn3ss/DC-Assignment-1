@@ -9,11 +9,13 @@ namespace Authenticator
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     internal class AuthenticatorServer : IAuthenticatorServer
     {
+        //private string loginFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
+        //prviate string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
+        private readonly string loginFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\login.txt";
+        private readonly string tokenFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\token.txt";
+
         public string Register(string name, string password) // Saves name + password in login.txt
         {
-            string loginFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
-            // string loginFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
-
             try // Try open login.txt to check for duplicate logins
             {
                 string[] lines = File.ReadLines(loginFilePath).ToArray();
@@ -39,10 +41,6 @@ namespace Authenticator
 
         public int Login(string name, string password) // Checks if name + password exist in login.txt
         {
-            string loginFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
-            // string loginFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
-            string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
-            // string tokenFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             string[] lines = File.ReadLines(loginFilePath).ToArray();
 
             foreach (string line in lines)
@@ -61,8 +59,6 @@ namespace Authenticator
 
         public string Validate(int token) // Checks if token is valid if it's in token.txt
         {
-            string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
-            // string tokenFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             string[] lines = File.ReadLines(tokenFilePath).ToArray();
 
             foreach (string line in lines)
@@ -78,8 +74,6 @@ namespace Authenticator
 
         public void ClearSavedTokens() // This function needs to clear saved tokens every 'x' minutes
         {
-            string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
-            // string tokenFilePath = *PUT YOUR FILE PATH HERE AND COMMENT MINE OUT*
             File.WriteAllText(tokenFilePath, String.Empty);
         }
     }

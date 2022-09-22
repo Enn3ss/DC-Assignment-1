@@ -9,3 +9,14 @@ C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authentic
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.CopyComplete
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Authenticator.exe.config
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Authenticator.exe
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Authenticator.pdb
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Newtonsoft.Json.dll
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\bin\Debug\Newtonsoft.Json.xml
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.AssemblyReference.cache
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.SuggestedBindingRedirects.cache
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.CoreCompileInputs.cache
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.csproj.CopyComplete
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.exe
+D:\_windowFiles\documents\GitHub\DC-Assignment-1\Authenticator\Authenticator\obj\Debug\Authenticator.pdb
