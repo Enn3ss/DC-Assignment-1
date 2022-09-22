@@ -29,7 +29,7 @@ namespace ServiceProvider.Controllers
             {
                 int result = calcData.Operands[0] + calcData.Operands[1];
                 status.Status = "Successful";
-                status.Reason = "PUT SOMETHING HERE";
+                status.Reason = "Authentication Validated";
                 status.Data = result.ToString();
             }
             else
@@ -43,100 +43,62 @@ namespace ServiceProvider.Controllers
 
         [Route("addthreenumbers")]
         [HttpPost]
-        public string AddThreeNumbers(int[] numbers, int token)
+        public StatusData AddThreeNumbers(CalculatorData calcData)
         {
-            string jsonString;
+            StatusData status = new StatusData();
 
-            if (foob.Validate(token).Equals("validated"))
-            {
-                NumberData sum = new NumberData
-                {
-                    Number = numbers[0] + numbers[1] + numbers[2]
-                };
-
-                //
-                int hello = numbers[0] + numbers[1] + numbers[2];
-                StatusData test = new StatusData
-                {
-                    Status = "Successful",
-                    Reason = "xxxxxxxxxxx",
-                    Data = hello.ToString()
-                };
-
-                // comment below out
-                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+            if (foob.Validate(calcData.Token).Equals("validated")) {
+                int result = calcData.Operands[0] + calcData.Operands[1] + calcData.Operands[2];
+                status.Status = "Successful";
+                status.Reason = "Authentication Validated";
+                status.Data = result.ToString();
             }
-            else
-            {
-                StatusData error = new StatusData
-                {
-                    Status = "Denied",
-                    Reason = "Authentication Error"
-                };
-
-                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+            else {
+                status.Status = "Denied";
+                status.Reason = "Authentication Error";
             }
 
-            // return test (StatusData obj(
-            return jsonString;
+            return status;
         }
 
         [Route("multwonumbers")]
         [HttpPost]
-        public string MulTwoNumbers(int[] numbers, int token)
+        public StatusData MulTwoNumbers(CalculatorData calcData)
         {
-            string jsonString;
+            StatusData status = new StatusData();
 
-            if (foob.Validate(token).Equals("validated"))
-            {
-                NumberData sum = new NumberData
-                {
-                    Number = numbers[0] * numbers[1]
-                };
-
-                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+            if (foob.Validate(calcData.Token).Equals("validated")) {
+                int result = calcData.Operands[0] * calcData.Operands[1];
+                status.Status = "Successful";
+                status.Reason = "Authentication Validated";
+                status.Data = result.ToString();
             }
-            else
-            {
-                StatusData error = new StatusData
-                {
-                    Status = "Denied",
-                    Reason = "Authentication Error"
-                };
-
-                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+            else {
+                status.Status = "Denied";
+                status.Reason = "Authentication Error";
             }
 
-            return jsonString;
+            return status;
         }
 
         [Route("multhreenumbers")]
         [HttpPost]
-        public string MulThreeNumbers(int[] numbers, int token)
+        public StatusData MulThreeNumbers(CalculatorData calcData)
         {
-            string jsonString;
+            StatusData status = new StatusData();
 
-            if (foob.Validate(token).Equals("validated"))
-            {
-                NumberData sum = new NumberData
-                {
-                    Number = numbers[0] * numbers[1] * numbers[2]
-                };
-
-                jsonString = JsonConvert.SerializeObject(sum, Formatting.Indented);
+            if (foob.Validate(calcData.Token).Equals("validated")) {
+                int result = calcData.Operands[0] * calcData.Operands[1] * calcData.Operands[2];
+                status.Status = "Successful";
+                status.Reason = "Authentication Validated";
+                status.Data = result.ToString();
             }
-            else
-            {
-                StatusData error = new StatusData
-                {
-                    Status = "Denied",
-                    Reason = "Authentication Error"
-                };
-
-                jsonString = JsonConvert.SerializeObject(error, Formatting.Indented);
+            else {
+                status.Status = "Denied";
+                status.Reason = "Authentication Error";
             }
 
-            return jsonString;
+            return status;
         }
     }
 }
