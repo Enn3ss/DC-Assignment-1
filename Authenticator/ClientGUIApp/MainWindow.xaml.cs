@@ -1,17 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Authenticator;
 using RestSharp;
 using System.ServiceModel;
@@ -19,10 +8,12 @@ using Newtonsoft.Json;
 using Registry.Models;
 using ServiceProvider.Models;
 
-namespace ClientGUIApp {
+namespace ClientGUIApp
+{
     public partial class MainWindow : Window {
         public IAuthenticatorServer foob;
-        public RestClient client;
+        public RestClient registryClient;
+        public RestClient serviceProviderClient;
         private int token = -1;
 
         public MainWindow() {
@@ -33,7 +24,8 @@ namespace ClientGUIApp {
             string URL = "net.tcp://localhost/AuthenticationService";
             foobFactory = new ChannelFactory<IAuthenticatorServer>(tcp, URL);
             foob = foobFactory.CreateChannel();
-            client = new RestClient("http://localhost:63273");
+            registryClient = new RestClient("http://localhost:63273");
+            serviceProviderClient = new RestClient("http://localhost:56066/");
         }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e) {
@@ -60,8 +52,8 @@ namespace ClientGUIApp {
             else {
                 RestRequest request = new RestRequest("api/service/search", Method.Post);
                 request.AddJsonBody(searchData);
-                RestResponse responce = client.Post(request);
-                Registry.Models.StatusData statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(responce.Content);
+                RestResponse response = registryClient.Post(request);
+                Registry.Models.StatusData statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
 
                 if (statusData.Status.Equals("Successful")) {
                     List<ServiceDescription> serviceDescriptions = JsonConvert.DeserializeObject<List<ServiceDescription>>(statusData.Data);
@@ -81,9 +73,9 @@ namespace ClientGUIApp {
                 MessageBox.Show("Name and/or password cannot be empty.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
             else {
-                string responce = foob.Register(name, password);
+                string response = foob.Register(name, password);
 
-                if (responce.Equals("unsuccessfully registered")) {
+                if (response.Equals("unsuccessfully registered")) {
                     MessageBox.Show("Name and password already exists.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
                 }
             }
@@ -95,8 +87,8 @@ namespace ClientGUIApp {
 
             RestRequest request = new RestRequest("api/service/allservices", Method.Post);
             request.AddJsonBody(allServicesData);
-            RestResponse responce = client.Post(request);
-            Registry.Models.StatusData statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(responce.Content);
+            RestResponse response = registryClient.Post(request);
+            Registry.Models.StatusData statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
 
             if (statusData.Status.Equals("Successful")) {
                 List<ServiceDescription> serviceDescriptions = JsonConvert.DeserializeObject<List<ServiceDescription>>(statusData.Data);
@@ -153,7 +145,7 @@ namespace ClientGUIApp {
             int[] operands = { Int32.Parse(OperandOneTextBox.Text), Int32.Parse(OperandTwoTextBox.Text) };
             calculatorData.Token = token;
             calculatorData.Operands = operands;
-
+            
             RestRequest request;
             // add two items
             if (currItem.APIEndpoint.Equals("http://localhost:56066/AddTwoNumbers")) {
@@ -176,11 +168,10 @@ namespace ClientGUIApp {
             }
 
             request.AddJsonBody(calculatorData);
-            RestResponse responce = client.Post(request);
-            ServiceProvider.Models.StatusData statusData = JsonConvert.DeserializeObject<ServiceProvider.Models.StatusData>(responce.Content);
+            RestResponse response = serviceProviderClient.Post(request);
+            ServiceProvider.Models.StatusData statusData = JsonConvert.DeserializeObject<ServiceProvider.Models.StatusData>(response.Content);
 
             SearchTextBox.Text = statusData.Status;
-
             ResultTextBox.Text = statusData.Data;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System.ServiceModel;
 using System.Web.Http;
-using Newtonsoft.Json;
 using ServiceProvider.Models;
 
 namespace ServiceProvider.Controllers
@@ -47,13 +46,15 @@ namespace ServiceProvider.Controllers
         {
             StatusData status = new StatusData();
 
-            if (foob.Validate(calcData.Token).Equals("validated")) {
+            if (foob.Validate(calcData.Token).Equals("validated")) 
+            {
                 int result = calcData.Operands[0] + calcData.Operands[1] + calcData.Operands[2];
                 status.Status = "Successful";
                 status.Reason = "Authentication Validated";
                 status.Data = result.ToString();
             }
-            else {
+            else 
+            {
                 status.Status = "Denied";
                 status.Reason = "Authentication Error";
             }
@@ -67,13 +68,15 @@ namespace ServiceProvider.Controllers
         {
             StatusData status = new StatusData();
 
-            if (foob.Validate(calcData.Token).Equals("validated")) {
+            if (foob.Validate(calcData.Token).Equals("validated")) 
+            {
                 int result = calcData.Operands[0] * calcData.Operands[1];
                 status.Status = "Successful";
                 status.Reason = "Authentication Validated";
                 status.Data = result.ToString();
             }
-            else {
+            else 
+            {
                 status.Status = "Denied";
                 status.Reason = "Authentication Error";
             }
@@ -87,13 +90,15 @@ namespace ServiceProvider.Controllers
         {
             StatusData status = new StatusData();
 
-            if (foob.Validate(calcData.Token).Equals("validated")) {
+            if (foob.Validate(calcData.Token).Equals("validated")) 
+            {
                 int result = calcData.Operands[0] * calcData.Operands[1] * calcData.Operands[2];
                 status.Status = "Successful";
                 status.Reason = "Authentication Validated";
                 status.Data = result.ToString();
             }
-            else {
+            else 
+            {
                 status.Status = "Denied";
                 status.Reason = "Authentication Error";
             }
