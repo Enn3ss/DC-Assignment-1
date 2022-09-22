@@ -18,6 +18,7 @@
         <Button x:Name="RegisterBtn" Content="Register" Margin="173,170,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Normal" Width="50" Click="RegisterBtn_Click"/>
         <Button x:Name="SearchBtn" Content="Search" Margin="103,305,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Normal" Width="60" Click="SearchBtn_Click"/>
         <Button x:Name="AllServicesBtn" Content="All Services" Margin="103,340,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Normal" Width="80" Click="AllServicesBtn_Click"/>
+        <ProgressBar Name="ProgressBar" Margin="265,387,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden"  IsIndeterminate="true" Height="20" Width="290"/>
         <ListView Name="ServiceList" Margin="265,60,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="300">
             <ListView.View>
                 <GridView>
