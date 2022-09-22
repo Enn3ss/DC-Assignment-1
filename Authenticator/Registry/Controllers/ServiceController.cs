@@ -13,8 +13,8 @@ namespace Registry.Controllers
     {
         private readonly Authenticator.IAuthenticatorServer foob;
 
-        //private string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
-        private string descriptionFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\description.txt";
+        private string descriptionFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\description.txt";
+        //private string descriptionFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\description.txt";
 
         public ServiceController()
         {
