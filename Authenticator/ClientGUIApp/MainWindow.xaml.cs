@@ -103,6 +103,11 @@ namespace ClientGUIApp
             if (ServiceList.SelectedItem != null) {
                 ServiceDescription currItem = (ServiceDescription)ServiceList.SelectedItem;
 
+                OperandOneTextBox.Text = "";
+                OperandTwoTextBox.Text = "";
+                OperandThreeTextBox.Text = "";
+                ResultTextBox.Text = "";
+
                 // add two items
                 if (currItem.APIEndpoint.Equals("http://localhost:56066/AddTwoNumbers")) {
                     OperandOneTextBox.IsEnabled = true;
@@ -140,32 +145,42 @@ namespace ClientGUIApp
 
         private void CalculateBtn_Click(object sender, RoutedEventArgs e) {
             ServiceDescription currItem = (ServiceDescription)ServiceList.SelectedItem;
-
-            CalculatorData calculatorData = new CalculatorData();
-            int[] operands = { Int32.Parse(OperandOneTextBox.Text), Int32.Parse(OperandTwoTextBox.Text) };
-            calculatorData.Token = token;
-            calculatorData.Operands = operands;
-            
+            int[] operands = new int[3];
             RestRequest request;
+
             // add two items
             if (currItem.APIEndpoint.Equals("http://localhost:56066/AddTwoNumbers")) {
                 request = new RestRequest("api/calculator/addtwonumbers", Method.Post);
+                operands[0] = Int32.Parse(OperandOneTextBox.Text);
+                operands[1] = Int32.Parse(OperandTwoTextBox.Text);
             }
             // add three items
             else if (currItem.APIEndpoint.Equals("http://localhost:56066/AddThreeNumbers")) {
                 request = new RestRequest("api/calculator/addthreenumbers", Method.Post);
+                operands[0] = Int32.Parse(OperandOneTextBox.Text);
+                operands[1] = Int32.Parse(OperandTwoTextBox.Text);
+                operands[2] = Int32.Parse(OperandThreeTextBox.Text);
             }
             // multiply two items
             else if (currItem.APIEndpoint.Equals("http://localhost:56066/MulTwoNumbers")) {
                 request = new RestRequest("api/calculator/multwonumbers", Method.Post);
+                operands[0] = Int32.Parse(OperandOneTextBox.Text);
+                operands[1] = Int32.Parse(OperandTwoTextBox.Text);
             }
             // multiple three items
             else if (currItem.APIEndpoint.Equals("http://localhost:56066/MulThreeNumbers")) {
                 request = new RestRequest("api/calculator/multhreenumbers", Method.Post);
+                operands[0] = Int32.Parse(OperandOneTextBox.Text);
+                operands[1] = Int32.Parse(OperandTwoTextBox.Text);
+                operands[2] = Int32.Parse(OperandThreeTextBox.Text);
             }
             else {
                 request = null;
             }
+
+            CalculatorData calculatorData = new CalculatorData();
+            calculatorData.Token = token;
+            calculatorData.Operands = operands;
 
             request.AddJsonBody(calculatorData);
             RestResponse response = serviceProviderClient.Post(request);
