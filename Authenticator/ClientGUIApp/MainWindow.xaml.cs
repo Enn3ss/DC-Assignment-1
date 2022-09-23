@@ -27,6 +27,8 @@ namespace ClientGUIApp
             foob = foobFactory.CreateChannel();
             registryClient = new RestClient("http://localhost:63273");
             serviceProviderClient = new RestClient("http://localhost:56066/");
+
+            disableCalculator();
         }
 
         private async void LoginBtn_Click(object sender, RoutedEventArgs e) {
@@ -35,26 +37,41 @@ namespace ClientGUIApp
 
             whenLoading(); //disable views and enable progress bar
 
-            token = await task;
+            try {
+                token = await task;
 
-            afterLoading(); //enable views and disable progress bar
+                afterLoading(); //enable views and disable progress bar
 
-            if (token == -1) {
-                MessageBox.Show("Incorrect credentials.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                if (token == -1) {
+                    MessageBox.Show("Incorrect credentials.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
+                else {
+                    MessageBox.Show("Successfully logged in.", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                }
             }
-            else {
-                MessageBox.Show("Successfully logged in.", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            catch (FaultException ex) {
+                MessageBox.Show("There was an error on the server's end.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                afterLoading(); //enable views and disable progress bar
             }
+            disableCalculator();
         }
 
         private int Login() {
             string name = null;
             string password = null;
+            int returnToken = -1;
 
             NameTextBox.Dispatcher.Invoke(new Action(() => name = NameTextBox.Text));
             PasswordTextBox.Dispatcher.Invoke(new Action(() => password = PasswordTextBox.Text));
 
-            return foob.Login(name, password);
+            try {
+                returnToken = foob.Login(name, password);
+            }
+            catch (FaultException ex) {
+                throw ex;
+            }
+
+            return returnToken;
         }
 
         private async void RegisterBtn_Click(object sender, RoutedEventArgs e) {
@@ -68,24 +85,39 @@ namespace ClientGUIApp
 
                 whenLoading(); //disable views and enable progress bar
 
-                string response = await task;
+                try {
+                    string response = await task;
 
-                afterLoading(); //enable views and disable progress bar
+                    afterLoading(); //enable views and disable progress bar
 
-                if (response.Equals("unsuccessfully registered")) {
-                    MessageBox.Show("Name and password already exists.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    if (response.Equals("unsuccessfully registered")) {
+                        MessageBox.Show("Name and password already exists.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    }
+                }
+                catch (FaultException ex) {
+                    MessageBox.Show("There was an error on the server's end.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    afterLoading(); //enable views and disable progress bar
                 }
             }
+            disableCalculator();
         }
 
         private string Register() {
             string name = null;
             string password = null;
+            string returnMsg = "";
 
             NameTextBox.Dispatcher.Invoke(new Action(() => name = NameTextBox.Text));
             PasswordTextBox.Dispatcher.Invoke(new Action(() => password = PasswordTextBox.Text));
 
-            return foob.Register(name, password);
+            try {
+                returnMsg = foob.Register(name, password);
+            }
+            catch (FaultException ex) {
+                throw ex;
+            }
+
+            return returnMsg;
         }
 
         private async void SearchBtn_Click(object sender, RoutedEventArgs e) {
@@ -93,26 +125,35 @@ namespace ClientGUIApp
                 MessageBox.Show("Search description cannot be empty.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
             else {
+                disableCalculator();
+
                 // build the task
                 Task<Registry.Models.StatusData> task = new Task<Registry.Models.StatusData>(SearchServices);
                 task.Start();
 
                 whenLoading(); //disable views and enable progress bar
 
-                // wait for the task to be done
-                Registry.Models.StatusData statusData = await task;
+                try {
+                    // wait for the task to be done
+                    Registry.Models.StatusData statusData = await task;
 
-                afterLoading(); //enable views and disable progress bar
+                    afterLoading(); //enable views and disable progress bar
 
-                // process the results
-                if (statusData.Status.Equals("Successful")) {
-                    List<ServiceDescription> serviceDescriptions = JsonConvert.DeserializeObject<List<ServiceDescription>>(statusData.Data);
-                    ServiceList.ItemsSource = serviceDescriptions;
+                    // process the results
+                    if (statusData.Status.Equals("Successful")) {
+                        List<ServiceDescription> serviceDescriptions = JsonConvert.DeserializeObject<List<ServiceDescription>>(statusData.Data);
+                        ServiceList.ItemsSource = serviceDescriptions;
+                    }
+                    else {
+                        MessageBox.Show("You need to login first.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    }
                 }
-                else {
-                    MessageBox.Show("You need to login first.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                catch (FaultException ex) {
+                    MessageBox.Show("There was an error on the server's end.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    afterLoading(); //enable views and disable progress bar
                 }
             }
+            disableCalculator();
         }
 
         private Registry.Models.StatusData SearchServices() {
@@ -121,13 +162,20 @@ namespace ClientGUIApp
             SearchTextBox.Dispatcher.Invoke(new Action(() => searchData.Search = SearchTextBox.Text));
             searchData.Token = token;
 
-            // make the RestRequest
-            RestRequest request = new RestRequest("api/service/search", Method.Post);
-            request.AddJsonBody(searchData);
-            RestResponse response = registryClient.Post(request);
+            Registry.Models.StatusData statusData;
 
-            // get the results
-            Registry.Models.StatusData statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
+            try {
+                // make the RestRequest
+                RestRequest request = new RestRequest("api/service/search", Method.Post);
+                request.AddJsonBody(searchData);
+                RestResponse response = registryClient.Post(request);
+
+                // get the results
+                statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
+            }
+            catch (FaultException ex) {
+                throw ex;
+            }
 
             return statusData;
         }
@@ -141,17 +189,24 @@ namespace ClientGUIApp
 
             whenLoading(); //disable views and enable progress bar
 
-            Registry.Models.StatusData statusData = await task;
+            try {
+                Registry.Models.StatusData statusData = await task;
 
-            afterLoading(); //enable views and disable progress bar
+                afterLoading(); //enable views and disable progress bar
 
-            if (statusData.Status.Equals("Successful")) {
-                List<ServiceDescription> serviceDescriptions = JsonConvert.DeserializeObject<List<ServiceDescription>>(statusData.Data);
-                ServiceList.ItemsSource = serviceDescriptions;
+                if (statusData.Status.Equals("Successful")) {
+                    List<ServiceDescription> serviceDescriptions = JsonConvert.DeserializeObject<List<ServiceDescription>>(statusData.Data);
+                    ServiceList.ItemsSource = serviceDescriptions;
+                }
+                else {
+                    MessageBox.Show("You need to login first.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
             }
-            else {
-                MessageBox.Show("You need to login first.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            catch (FaultException ex) {
+                MessageBox.Show("There was an error on the server's end.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                afterLoading(); //enable views and disable progress bar
             }
+            disableCalculator();
         }
 
         private Registry.Models.StatusData SearchAllServices() {
@@ -159,13 +214,21 @@ namespace ClientGUIApp
             AllServicesData allServicesData = new AllServicesData();
             allServicesData.Token = token;
 
-            // make request
-            RestRequest request = new RestRequest("api/service/allservices", Method.Post);
-            request.AddJsonBody(allServicesData);
-            RestResponse response = registryClient.Post(request);
+            Registry.Models.StatusData statusData;
 
-            // deserialize
-            Registry.Models.StatusData statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
+            try {
+                // make request
+                RestRequest request = new RestRequest("api/service/allservices", Method.Post);
+                request.AddJsonBody(allServicesData);
+                RestResponse response = registryClient.Post(request);
+
+                // deserialize
+                statusData = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
+            }
+            catch (FaultException ex) {
+                throw ex;
+            }
+
             return statusData;
         }
 
@@ -227,16 +290,21 @@ namespace ClientGUIApp
 
             whenLoading();
 
-            ServiceProvider.Models.StatusData statusData = await task;
+            try {
+                ServiceProvider.Models.StatusData statusData = await task;
 
-            afterLoading();
+                afterLoading();
 
-            if (statusData.Status.Equals("Denied")) {
-                MessageBox.Show("There was an error in calculating the result.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                if (statusData.Status.Equals("Denied")) {
+                    MessageBox.Show("There was an error in calculating the result.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
+                else {
+                    ResultTextBox.Text = statusData.Data;
+                }
             }
-            else {
-                SearchTextBox.Text = statusData.Status;
-                ResultTextBox.Text = statusData.Data;
+            catch (FaultException ex) {
+                MessageBox.Show("There was an error on the server's end.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                afterLoading(); //enable views and disable progress bar
             }
         }
 
@@ -246,44 +314,50 @@ namespace ClientGUIApp
 
             int[] operands = new int[3];
             RestRequest request;
+            ServiceProvider.Models.StatusData statusData;
 
-            // add two items
-            if (currItem.APIEndpoint.Equals("http://localhost:56066/AddTwoNumbers")) {
-                request = new RestRequest("api/calculator/addtwonumbers", Method.Post);
-                OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
-                OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
-            }
-            // add three items
-            else if (currItem.APIEndpoint.Equals("http://localhost:56066/AddThreeNumbers")) {
-                request = new RestRequest("api/calculator/addthreenumbers", Method.Post);
-                OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
-                OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
-                OperandThreeTextBox.Dispatcher.Invoke(new Action(() => operands[2] = Int32.Parse(OperandThreeTextBox.Text)));
-            }
-            // multiply two items
-            else if (currItem.APIEndpoint.Equals("http://localhost:56066/MulTwoNumbers")) {
-                request = new RestRequest("api/calculator/multwonumbers", Method.Post);
-                OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
-                OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
-            }
-            // multiple three items
-            else if (currItem.APIEndpoint.Equals("http://localhost:56066/MulThreeNumbers")) {
-                request = new RestRequest("api/calculator/multhreenumbers", Method.Post);
-                OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
-                OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
-                OperandThreeTextBox.Dispatcher.Invoke(new Action(() => operands[2] = Int32.Parse(OperandThreeTextBox.Text)));
-            }
-            else {
-                request = null;
-            }
+            try {
+                // add two items
+                if (currItem.APIEndpoint.Equals("http://localhost:56066/AddTwoNumbers")) {
+                    request = new RestRequest("api/calculator/addtwonumbers", Method.Post);
+                    OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
+                    OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
+                }
+                // add three items
+                else if (currItem.APIEndpoint.Equals("http://localhost:56066/AddThreeNumbers")) {
+                    request = new RestRequest("api/calculator/addthreenumbers", Method.Post);
+                    OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
+                    OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
+                    OperandThreeTextBox.Dispatcher.Invoke(new Action(() => operands[2] = Int32.Parse(OperandThreeTextBox.Text)));
+                }
+                // multiply two items
+                else if (currItem.APIEndpoint.Equals("http://localhost:56066/MulTwoNumbers")) {
+                    request = new RestRequest("api/calculator/multwonumbers", Method.Post);
+                    OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
+                    OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
+                }
+                // multiple three items
+                else if (currItem.APIEndpoint.Equals("http://localhost:56066/MulThreeNumbers")) {
+                    request = new RestRequest("api/calculator/multhreenumbers", Method.Post);
+                    OperandOneTextBox.Dispatcher.Invoke(new Action(() => operands[0] = Int32.Parse(OperandOneTextBox.Text)));
+                    OperandTwoTextBox.Dispatcher.Invoke(new Action(() => operands[1] = Int32.Parse(OperandTwoTextBox.Text)));
+                    OperandThreeTextBox.Dispatcher.Invoke(new Action(() => operands[2] = Int32.Parse(OperandThreeTextBox.Text)));
+                }
+                else {
+                    request = null;
+                }
 
-            CalculatorData calculatorData = new CalculatorData();
-            calculatorData.Token = token;
-            calculatorData.Operands = operands;
+                CalculatorData calculatorData = new CalculatorData();
+                calculatorData.Token = token;
+                calculatorData.Operands = operands;
 
-            request.AddJsonBody(calculatorData);
-            RestResponse response = serviceProviderClient.Post(request);
-            ServiceProvider.Models.StatusData statusData = JsonConvert.DeserializeObject<ServiceProvider.Models.StatusData>(response.Content);
+                request.AddJsonBody(calculatorData);
+                RestResponse response = serviceProviderClient.Post(request);
+                statusData = JsonConvert.DeserializeObject<ServiceProvider.Models.StatusData>(response.Content);
+            }
+            catch (FaultException ex) {
+                throw ex;            
+            }
             return statusData;
         }
 
@@ -331,6 +405,19 @@ namespace ClientGUIApp
             OperandThreeTextBox.IsEnabled = true;
             CalculateBtn.IsEnabled = true;
             ResultTextBox.IsEnabled = true;
+        }
+
+        private void disableCalculator() {
+            OperandOneTextBox.Text = "";
+            OperandTwoTextBox.Text = "";
+            OperandThreeTextBox.Text = "";
+            ResultTextBox.Text = "";
+
+            OperandOneTextBox.IsEnabled = false;
+            OperandTwoTextBox.IsEnabled = false;
+            OperandThreeTextBox.IsEnabled = false;
+            ResultTextBox.IsEnabled = false;
+            CalculateBtn.IsEnabled = false;
         }
     }
 }

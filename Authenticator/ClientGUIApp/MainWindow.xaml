@@ -41,6 +41,6 @@
         <TextBox Name="OperandTwoTextBox" Margin="690,135,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" MaxHeight="20" IsEnabled="false"/>
         <TextBox Name="OperandThreeTextBox" Margin="690,170,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" MaxHeight="20" IsEnabled="false"/>
         <TextBox x:Name="ResultTextBox" Margin="690,245,0,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" MaxHeight="20" IsEnabled="false" IsReadOnly="True"/>
-        <Button x:Name="CalculateBtn" Content="Calculate" Margin="650,210,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Normal" Width="80" Click="CalculateBtn_Click"/>
+        <Button x:Name="CalculateBtn" Content="Calculate" Margin="650,210,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Normal" Width="80" Click="CalculateBtn_Click" IsEnabled="false"/>
     </Grid>
 </Window>
