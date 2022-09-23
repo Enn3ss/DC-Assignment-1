@@ -15,7 +15,7 @@ namespace ClientGUIApp
         public IAuthenticatorServer foob;
         public RestClient registryClient;
         public RestClient serviceProviderClient;
-        private int token = -1;
+        public int token = -1;
 
         public MainWindow() {
             InitializeComponent();
@@ -33,11 +33,11 @@ namespace ClientGUIApp
             Task<int> task = new Task<int>(Login);
             task.Start();
 
-            whenLoading();
+            whenLoading(); //disable views and enable progress bar
 
-            int token = await task;
+            token = await task;
 
-            afterLoading();
+            afterLoading(); //enable views and disable progress bar
 
             if (token == -1) {
                 MessageBox.Show("Incorrect credentials.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
@@ -66,11 +66,11 @@ namespace ClientGUIApp
                 Task<string> task = new Task<string>(Register);
                 task.Start();
 
-                whenLoading();
+                whenLoading(); //disable views and enable progress bar
 
                 string response = await task;
 
-                afterLoading();
+                afterLoading(); //enable views and disable progress bar
 
                 if (response.Equals("unsuccessfully registered")) {
                     MessageBox.Show("Name and password already exists.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
@@ -97,12 +97,12 @@ namespace ClientGUIApp
                 Task<Registry.Models.StatusData> task = new Task<Registry.Models.StatusData>(SearchServices);
                 task.Start();
 
-                whenLoading();
+                whenLoading(); //disable views and enable progress bar
 
                 // wait for the task to be done
                 Registry.Models.StatusData statusData = await task;
 
-                afterLoading();
+                afterLoading(); //enable views and disable progress bar
 
                 // process the results
                 if (statusData.Status.Equals("Successful")) {
@@ -135,13 +135,15 @@ namespace ClientGUIApp
         private async void AllServicesBtn_Click(object sender, RoutedEventArgs e) {
             // build the task
             Task<Registry.Models.StatusData> task = new Task<Registry.Models.StatusData>(SearchAllServices);
+
+            // and start it
             task.Start();
 
-            whenLoading();
+            whenLoading(); //disable views and enable progress bar
 
             Registry.Models.StatusData statusData = await task;
 
-            afterLoading();
+            afterLoading(); //enable views and disable progress bar
 
             if (statusData.Status.Equals("Successful")) {
                 List<ServiceDescription> serviceDescriptions = JsonConvert.DeserializeObject<List<ServiceDescription>>(statusData.Data);
@@ -155,9 +157,7 @@ namespace ClientGUIApp
         private Registry.Models.StatusData SearchAllServices() {
             // generate the AllServicesData
             AllServicesData allServicesData = new AllServicesData();
-            allServicesData.Token = token; //TODO token is always -1, as running in different thread will make token = -1;
-
-            SearchTextBox.Dispatcher.Invoke(new Action(() => SearchTextBox.Text = token.ToString()));
+            allServicesData.Token = token;
 
             // make request
             RestRequest request = new RestRequest("api/service/allservices", Method.Post);
@@ -209,6 +209,13 @@ namespace ClientGUIApp
                     OperandThreeTextBox.IsEnabled = true;
                     ResultTextBox.IsEnabled = true;
                     CalculateBtn.IsEnabled = true;
+                }
+                else {
+                    OperandOneTextBox.IsEnabled = false;
+                    OperandTwoTextBox.IsEnabled = false;
+                    OperandThreeTextBox.IsEnabled = false;
+                    ResultTextBox.IsEnabled = false;
+                    CalculateBtn.IsEnabled = false;
                 }
             }
         }
