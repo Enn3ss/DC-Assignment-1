@@ -60,6 +60,9 @@ namespace ServicePublishingConsoleApp
                         case 5:
                             Console.WriteLine("Exiting the Service Publishing Console Application...");
                             break;
+                        default:
+                            Console.WriteLine("\nERROR: Please enter a vaild number.\n");
+                            break;
                     }
                 }
                 catch (FormatException ex) {
@@ -80,14 +83,19 @@ namespace ServicePublishingConsoleApp
             Console.Write("Enter a password: ");
             password = Console.ReadLine();
 
-            status = foob.Register(name, password);
-            Console.WriteLine("Register Status: " + status);
+            try {
+                status = foob.Register(name, password);
+                Console.WriteLine("Register Status: " + status);
+            }
+            catch (FaultException ex) {
+                Console.WriteLine("\nERROR: " + ex.Message + "\n");
+            }
         }
 
         public static int Login()
         {
             string name, password;
-            int token;
+            int token = -1;
 
             Console.WriteLine("You have selected ---> 2. Login");
             Console.Write("Enter a name: ");
@@ -96,16 +104,20 @@ namespace ServicePublishingConsoleApp
             Console.Write("Enter a password: ");
             password = Console.ReadLine();
 
-            token = foob.Login(name, password);
+            try {
+                token = foob.Login(name, password);
 
-            if (token == -1) {
-                Console.WriteLine("Token: " + token.ToString() + " (token = -1 is an invalid token)");
-                Console.WriteLine("\nERROR: There is no account under that name.\n");
+                if (token == -1) {
+                    Console.WriteLine("Token: " + token.ToString() + " (token = -1 is an invalid token)");
+                    Console.WriteLine("\nERROR: There is no account under that name.\n");
+                }
+                else {
+                    Console.WriteLine("Token: " + token.ToString());
+                }
             }
-            else {
-                Console.WriteLine("Token: " + token.ToString());
+            catch (FaultException ex) {
+                Console.WriteLine("\nERROR: " + ex.Message + "\n");
             }
-
             return token;
         }
 
@@ -148,7 +160,7 @@ namespace ServicePublishingConsoleApp
                 Registry.Models.StatusData status = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
                 Console.WriteLine("Status: " + status.Status + "\nReason: " + status.Reason);
             }
-            catch (FormatException ex) {
+            catch (Exception ex) when (ex is FormatException || ex is FaultException) {
                 Console.WriteLine("\nERROR: " + ex.Message + "\n");
             }
         }
@@ -168,11 +180,16 @@ namespace ServicePublishingConsoleApp
                 Token = token
             };
 
-            RestRequest request = new RestRequest("api/service/unpublish/", Method.Post);
-            request.AddJsonBody(unpublishData);
-            RestResponse response = client.Post(request);
-            Registry.Models.StatusData status = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
-            Console.WriteLine("Status: " + status.Status + "\nReason: " + status.Reason);
+            try {
+                RestRequest request = new RestRequest("api/service/unpublish/", Method.Post);
+                request.AddJsonBody(unpublishData);
+                RestResponse response = client.Post(request);
+                Registry.Models.StatusData status = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
+                Console.WriteLine("Status: " + status.Status + "\nReason: " + status.Reason);
+            }
+            catch (FaultException ex) {
+                Console.WriteLine("\nERROR: " + ex.Message + "\n");
+            }
         }
     }  
 }
