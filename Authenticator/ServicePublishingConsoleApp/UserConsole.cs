@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.ServiceModel.Configuration;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -40,11 +34,13 @@ namespace ServicePublishingConsoleApp
 
             do
             {
-                try {
+                try 
+                {
                     Console.WriteLine(menuStr);
                     menuOption = int.Parse(Console.ReadLine()); // Will throw exception if input is not a number
 
-                    switch (menuOption) {
+                    switch (menuOption) 
+                    {
                         case 1:
                             Register();
                             break;
@@ -65,7 +61,8 @@ namespace ServicePublishingConsoleApp
                             break;
                     }
                 }
-                catch (FormatException ex) {
+                catch (FormatException ex) 
+                {
                     Console.WriteLine("\nERROR: " + ex.Message + "\n");
                 }
             }
@@ -83,7 +80,8 @@ namespace ServicePublishingConsoleApp
             Console.Write("Enter a password: ");
             password = Console.ReadLine();
 
-            try {
+            try 
+            {
                 status = foob.Register(name, password);
                 Console.WriteLine("Register Status: " + status);
             }
@@ -104,18 +102,22 @@ namespace ServicePublishingConsoleApp
             Console.Write("Enter a password: ");
             password = Console.ReadLine();
 
-            try {
+            try 
+            {
                 token = foob.Login(name, password);
 
-                if (token == -1) {
+                if (token == -1) 
+                {
                     Console.WriteLine("Token: " + token.ToString() + " (token = -1 is an invalid token)");
                     Console.WriteLine("\nERROR: There is no account under that name.\n");
                 }
-                else {
+                else 
+                {
                     Console.WriteLine("Token: " + token.ToString());
                 }
             }
-            catch (FaultException ex) {
+            catch (FaultException ex) 
+            {
                 Console.WriteLine("\nERROR: " + ex.Message + "\n");
             }
             return token;
@@ -127,7 +129,8 @@ namespace ServicePublishingConsoleApp
             string name, description, apiEndpoint, operandType;
             int numOfOperands;
 
-            try {
+            try 
+            {
                 Console.WriteLine("You have selected ---> 3. Publish");
                 Console.Write("Enter a name: ");
                 name = Console.ReadLine();
@@ -160,7 +163,8 @@ namespace ServicePublishingConsoleApp
                 Registry.Models.StatusData status = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
                 Console.WriteLine("Status: " + status.Status + "\nReason: " + status.Reason);
             }
-            catch (Exception ex) when (ex is FormatException || ex is FaultException) {
+            catch (Exception ex) when (ex is FormatException || ex is FaultException) 
+            {
                 Console.WriteLine("\nERROR: " + ex.Message + "\n");
             }
         }
@@ -180,14 +184,16 @@ namespace ServicePublishingConsoleApp
                 Token = token
             };
 
-            try {
+            try 
+            {
                 RestRequest request = new RestRequest("api/service/unpublish/", Method.Post);
                 request.AddJsonBody(unpublishData);
                 RestResponse response = client.Post(request);
                 Registry.Models.StatusData status = JsonConvert.DeserializeObject<Registry.Models.StatusData>(response.Content);
                 Console.WriteLine("Status: " + status.Status + "\nReason: " + status.Reason);
             }
-            catch (FaultException ex) {
+            catch (FaultException ex) 
+            {
                 Console.WriteLine("\nERROR: " + ex.Message + "\n");
             }
         }
