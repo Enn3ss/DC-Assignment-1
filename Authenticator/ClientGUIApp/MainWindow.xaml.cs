@@ -305,6 +305,12 @@ namespace ClientGUIApp
             catch (FaultException ex) {
                 MessageBox.Show("There was an error on the server's end.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
                 afterLoading(); //enable views and disable progress bar
+                disableCalculator();
+            }
+            catch (FormatException ex) {
+                MessageBox.Show("The operands must be a number.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                afterLoading(); //enable views and disable progress bar
+                disableCalculator();
             }
         }
 
@@ -355,7 +361,7 @@ namespace ClientGUIApp
                 RestResponse response = serviceProviderClient.Post(request);
                 statusData = JsonConvert.DeserializeObject<ServiceProvider.Models.StatusData>(response.Content);
             }
-            catch (FaultException ex) {
+            catch (Exception ex) when (ex is FormatException || ex is FaultException) {
                 throw ex;            
             }
             return statusData;
