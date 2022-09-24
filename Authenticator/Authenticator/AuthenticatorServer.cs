@@ -9,10 +9,10 @@ namespace Authenticator
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
     internal class AuthenticatorServer : IAuthenticatorServer
     {
-        //private string loginFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
-        //private string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
-        private readonly string loginFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\login.txt";
-        private readonly string tokenFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\token.txt";
+        private readonly string loginFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\login.txt";
+        private readonly string tokenFilePath = @"C:\Users\Nathan Sutandi\Documents\GitHub\DC-Assignment-1\token.txt";
+        //private readonly string loginFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\login.txt";
+        //private readonly string tokenFilePath = @"D:\_windowFiles\documents\GitHub\DC-Assignment-1\token.txt";
 
         public string Register(string name, string password) // Saves name + password in login.txt
         {
