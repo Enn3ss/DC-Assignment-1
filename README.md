@@ -112,6 +112,7 @@ You need to demonstrate that you can do the following operations.
 It is expected that you display the result of each operation in a meaningful way. You are allowed to use the RestSharp library.
 
 ------------------- The Client GUI Application Project [10 Marks] -------------------
+
 You are free to use any GUI framework, i.e., WPF or Web or anything. 
 It is up to you how to design the user interface. 
 You need to demonstrate that you can do the following operations:
