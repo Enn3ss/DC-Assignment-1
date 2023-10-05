@@ -30,6 +30,7 @@ The marks are assigned to each instruction.
 Note, that if you cannot finish a functionality, you will be given partial marks based on your efforts or codes.
 
 ---------------- The Authenticator Project [2 Marks] ----------------
+
 It is a .NET WCF/remoting server. “net.tcp://localhost/AuthenticationService” is an
 example of a fixed service endpoint. It has three operations open as service functions:
 1. String Register (String name, String Password): It expects two operands, i.e.,
@@ -47,6 +48,7 @@ When you run the authentication server, it will ask for the number of minutes
 for the periodical clean-up in the console (using multithreading). [0.5 Marks]
 
 ------------------- The Service Provider Project [4 Marks] -------------------
+
 It is an ASP.NET Web API project that creates Rest services:
 a) ADDTwoNumbers: This rest service adds two input integers and returns the
 output in JSON [0.5 Mark]
@@ -68,6 +70,7 @@ Otherwise, the following JSON output is sent:
 }
 
 ------------------- The Registry Project [6 Marks] -------------------
+
 It is an ASP.NET Web API project that creates the following Rest services:
 a) Publish: This rest service saves the service description in a local text file. If
 successful it returns the status accordingly in JSON. This service expects the input in
@@ -117,6 +120,7 @@ following JSON output is sent:
 }
 
 ------------------- The Service Publishing Console Application [4 Marks] -------------------
+
 This is a C# console application to publish services. It is up to you how to design the
 user interface. You need to demonstrate that you can do the following operations.
 e) Registration: the app asks for the username and password in the console and
